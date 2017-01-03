@@ -294,6 +294,8 @@ namespace CommonMark.Formatters
         /// <param name="ignoreChildNodes">Instructs the caller whether to skip processing of child nodes or not.</param>
         protected virtual void WriteInline(Inline inline, bool isOpening, bool isClosing, out bool ignoreChildNodes)
         {
+            ignoreChildNodes = false;
+
             if (RenderPlainTextInlines.Peek())
             {
                 switch (inline.Tag)
