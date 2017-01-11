@@ -290,13 +290,15 @@ namespace CommonMark.Parser
         /// Match sexext heading line.  Return 1 for level-1 heading,
         /// 2 for level-2, 0 for no match.
         /// </summary>
-        public static int scan_setext_heading_line(string s, int pos, int sourceLength)
+        public static int scan_setext_heading_line(string s, int pos, int sourceLength, out int underlineLength)
         {
             /*!re2c
               [=]+ [ ]* [\n] { return 1; }
               [-]+ [ ]* [\n] { return 2; }
               .? { return 0; }
             */
+
+            underlineLength = 0;
 
             if (pos >= sourceLength)
                 return 0;
@@ -313,6 +315,7 @@ namespace CommonMark.Parser
                 if (c == c1 && !fin)
                     continue;
 
+                underlineLength = i;
                 fin = true;
                 if (c == ' ')
                     continue;
