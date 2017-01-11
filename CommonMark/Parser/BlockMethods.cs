@@ -497,6 +497,7 @@ namespace CommonMark.Parser
             var blank = false;
             char curChar;
             int indent;
+            int setextHeadingUnderlineLength;
 
             // container starts at the document root.
             var container = cur.Top;
@@ -703,11 +704,11 @@ namespace CommonMark.Parser
 
                 }
                 else if (!indented && container.Tag == BlockTag.Paragraph && (curChar == '=' || curChar == '-')
-                        && 0 != (matched = Scanner.scan_setext_heading_line(ln, first_nonspace, ln.Length)))
+                        && 0 != (matched = Scanner.scan_setext_heading_line(ln, first_nonspace, ln.Length, out setextHeadingUnderlineLength)))
                 {
 
                     container.Tag = BlockTag.SetextHeading;
-                    container.Heading = new HeadingData(matched);
+                    container.Heading = new HeadingData(matched, setextHeadingUnderlineLength);
                     AdvanceOffset(ln, ln.Length - 1 - offset, false, ref offset, ref column, ref remainingSpaces);
 
                 }
